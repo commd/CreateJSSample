@@ -1,0 +1,55 @@
+<!-- My work in progesss while following along the createjs.com tutorial  -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src="http://code.createjs.com/createjs-2013.02.12.min.js"></script>
+		<!-- does not work with createjs-2013.12.12.min.js -->
+		<!-- get XMLHttpRequest cannot load file:///home/chuck/workspace/CreateJSSample/fail.fail. Cross origin requests are only supported for HTTP when trying to registerSound()-->
+		<script>
+
+			var stage;
+
+			function init() {
+
+				stage = new createjs.Stage("myCanvas");
+
+				createjs.Sound.registerSound("assets/pop.mp3", "sound");
+				createjs.Sound.addEventListener("loadComplete", handleComplete);
+
+			}
+
+			function handleComplete(event) {
+
+				var ball = new createjs.Shape();
+				ball.graphics.beginFill("#000000").drawCircle(0, 0, 50);
+				ball.x = 50;
+				ball.y = 200;
+				ball.addEventListener("click", handleClick);
+
+				stage.addChild(ball);
+
+				createjs.Tween.get(ball, {loop:true}).to({x:450}, 3000).to({x:50}, 3000);
+				createjs.Ticker.addEventListener("tick", tick);
+
+			}
+
+			function handleClick(event) {
+
+				createjs.Sound.play("sound");
+			}
+
+			function tick(event) {
+
+				stage.update();
+
+			} 
+
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="myCanvas" width="500" height="500">
+			Alternative Content		<!-- this shows if canvas is not supported -->
+		</canvas>
+	</body>
+</html>
